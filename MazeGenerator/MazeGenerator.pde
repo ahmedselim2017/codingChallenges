@@ -2,6 +2,7 @@ int rows, cols;
 int w = 20;
 Cell current;
 ArrayList<Cell> grid = new ArrayList<Cell>();
+ArrayList<Cell> stack = new ArrayList<Cell>();
 
 public void setup(){
   size(600,600);
@@ -31,9 +32,14 @@ public void draw(){
   
   if(next != null){
     next.visited = true;
+    stack.add(current);
     removeWalls(current, next);
     current = next;
   }
+  else if(stack.size() > 0){
+    current = stack.remove(stack.size() - 1);
+  }
+  
 }
 
 public int index(int i, int j){
