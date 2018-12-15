@@ -11,7 +11,6 @@ class Cell{
   public void show(){
     int x = i * w;
     int y = j * w;
-    
     stroke(255);    
     if(walls[0])
       line(x    , y    , x + w, y    );
@@ -23,7 +22,9 @@ class Cell{
       line(x    , y + w, x    , y    );
     
     if(visited){
-      fill(255, 0, 255, 100);
+      
+      noStroke();
+      fill(0, 255, 255, 200);
       rect(x, y, w, w);
     }
   }
@@ -52,5 +53,13 @@ class Cell{
     }
     return null;
 
+  }
+  
+  public void highlight(){
+    int x = i * w;
+    int y = j * w;
+    noStroke();
+    fill(0, 255, 255, 225);
+    rect(x, y, w, w);
   }
 }
