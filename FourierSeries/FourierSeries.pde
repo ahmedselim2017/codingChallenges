@@ -9,7 +9,6 @@ ArrayList<Float> wave = new ArrayList<Float>();
 public void setup(){
     size(600,400);
     background(0);
-
 }
 
 public void draw(){
@@ -19,21 +18,16 @@ public void draw(){
 
     float x = 0;
     float y = 0;
-    float radius = 0;
 
-    for(int i = 1; i<100; i++){
+    for(int i = 0; i<100; i++){
 
         float prevx = x;
         float prevy = y;
+
         float n = i * 2 + 1;
-        if (i % 2 != 0){
-            radius = 75 * (2 / ( -i * PI));
-        }
-        else{
-            radius = 75 * (2 / ( i * PI));
-        }
-        x += radius * cos(i * time);
-        y += radius * sin(i * time);
+        float radius = 75 * (4 / (n * PI));
+        x += radius * cos(n * time);
+        y += radius * sin(n * time);
 
 
         stroke(255, 100);
@@ -63,7 +57,7 @@ public void draw(){
     }
     endShape();
 
-    time -= 0.05;
+    time += 0.05;
 
     if(wave.size() > 250){
         wave.remove(wave.size()-1);
