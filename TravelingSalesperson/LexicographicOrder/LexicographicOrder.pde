@@ -1,5 +1,5 @@
 //EuzuBillahimineşşeydanirracim Bismillahirrahmanirrahim
-//Algorith --> https://www.quora.com/How-would-you-explain-an-algorithm-that-generates-permutations-using-lexicographic-ordering
+//Algorithm --> https://www.quora.com/How-would-you-explain-an-algorithm-that-generates-permutations-using-lexicographic-ordering
 
 int totalCities = 10;
 PVector[] cities;
