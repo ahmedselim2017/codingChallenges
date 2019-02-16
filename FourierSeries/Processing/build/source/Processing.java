@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class FourierSeries extends PApplet {
+public class Processing extends PApplet {
 
 //EuzuBillahimineşşeydanirracim Bismillahirrahmanirrahim
 
@@ -51,19 +51,12 @@ public void draw(){
         ellipse(prevx,prevy,radius*2,radius*2);
 
 
-
-        //fill(255);
         stroke(255);
-
         line(prevx,prevy, x,y);
-        //ellipse(x,y,8,8);
-
-
-
 
     }
     wave.add(0,y);
-    translate(200,0);
+    //translate(200,0);
     line(x - 200, y,0, wave.get(0));
 
     beginShape();
@@ -83,7 +76,7 @@ public void draw(){
 }
   public void settings() {  size(600,400); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "FourierSeries" };
+    String[] appletArgs = new String[] { "Processing" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
