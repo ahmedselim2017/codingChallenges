@@ -1,60 +1,116 @@
 //EuzuBillahimineşşeydanirracim Bismillahirrahmanirrahim
 
-let time = 0;
-let wave = [];
+const USER = 0;
+const FOURIER = 1;
 
-let slider;
+let x = [];
+let y = [];
+let fourierY;
+let fourierX;
+
+let time = 0;
+let path = [];
+
+let drawing = [];
+let state = -1;
+
+function mousePressed() {
+  state = USER;
+  drawing = [];
+  x = [];
+  y = [];
+  time = 0;
+  path = [];
+}
+
+function mouseReleased() {
+  state = FOURIER;
+  const skip = 1;
+  for (let i = 0; i < drawing.length; i += skip) {
+    x.push(drawing[i].x);
+    y.push(drawing[i].y);
+  }
+  fourierX = dft(x);
+  fourierY = dft(y);
+
+  fourierX.sort((a, b) => b.amp - a.amp);
+  fourierY.sort((a, b) => b.amp - a.amp);
+}
+
 
 function setup() {
-    createCanvas(600,400);
-    slider = createSlider(1, 50, 5);
+    createCanvas(600, 400);
+
 
 }
 
 function draw() {
     background(0);
-    translate(150, 200);
 
-    let x = 0;
-    let y = 0;
 
-    for(let i = 0; i < slider.value(); i++){
+    if (state == USER) {
+        let point = createVector(mouseX - width / 2, mouseY - height / 2);
+        drawing.push(point);
+
+        stroke(255);
+            noFill();
+            beginShape();
+            for (let v of drawing) {
+              vertex(v.x + width / 2, v.y + height / 2);
+            }
+            endShape();
+
+    } else if (state == FOURIER){
+
+        let vX = epiCycles(width / 2, 100, 0, fourierX);
+        let vY = epiCycles(100, height / 2, HALF_PI, fourierY);
+        let v = createVector(vX.x, vY.y);
+        path.unshift(v);
+
+        line(vX.x, vX.y, v.x, v.y);
+        line(vY.x, vY.y, v.x, v.y);
+
+        beginShape();
+        noFill();
+        for (let i = 0; i < path.length; i++) {
+            vertex(path[i].x, path[i].y);
+        }
+        endShape();
+
+        const dt = TWO_PI / fourierY.length
+        time += dt;
+
+
+
+    if (time > TWO_PI) {
+      time = 0;
+      path = [];
+    }
+
+        // if (path.lenght > 250) {
+        //     path.pop();
+        // }
+
+    }
+}
+
+function epiCycles(x, y, rotation, fourier) {
+    for (let i = 0; i < fourier.length; i++) {
         let prevX = x;
         let prevY = y;
 
-        let n = i * 2 + 1;
-        let radius = 75 * ( 4 / (n * PI));
-
-        x += radius * cos(n * time);
-        y += radius * sin(n * time);
+        let freq = fourier[i].freq;
+        let radius = fourier[i].amp;
+        let phase = fourier[i].phase;
+        x += radius * cos(freq * time + phase + rotation);
+        y += radius * sin(freq * time + phase + rotation);
 
         stroke(255, 100);
         noFill();
         ellipse(prevX, prevY, radius * 2);
 
         stroke(255);
-        line(prevX,prevY, x,y);
+        line(prevX, prevY, x, y);
     }
-    wave.unshift(y);
-
-    translate(200, 0);
-    line(x - 200, y, 0, wave[0]);
-
-    beginShape();
-    noFill();
-    for (let i = 0; i < wave.length; i++) {
-        vertex(i, wave[i]);
-        }
-
-
-
-    endShape();
-
-    time += 0.05;
-
-    if(wave.lenght > 250){
-        wave.pop();
-    }
-
-
- }
+    return createVector(x, y);
+}
