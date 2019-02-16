@@ -35,19 +35,12 @@ public void draw(){
         ellipse(prevx,prevy,radius*2,radius*2);
 
 
-
-        //fill(255);
         stroke(255);
-
         line(prevx,prevy, x,y);
-        //ellipse(x,y,8,8);
-
-
-
 
     }
     wave.add(0,y);
-    translate(200,0);
+    //translate(200,0);
     line(x - 200, y,0, wave.get(0));
 
     beginShape();
