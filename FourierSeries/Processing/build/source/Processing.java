@@ -56,7 +56,7 @@ public void draw(){
 
     }
     wave.add(0,y);
-    //translate(200,0);
+    translate(200,0);
     line(x - 200, y,0, wave.get(0));
 
     beginShape();
